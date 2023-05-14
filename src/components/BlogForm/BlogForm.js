@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, TextField, Button } from '@mui/material'
+import { Grid, Button } from '@mui/material'
 import axios from "axios";
 
 const userName = 'drivera'
@@ -11,7 +11,6 @@ const client = axios.create({
 
 const BlogForm = props => {
 
-    const [blog, setBlog] = useState('');
     const [blogs, setBlogs] = useState([]);
 
     useEffect(() => {
@@ -22,16 +21,19 @@ const BlogForm = props => {
         event.preventDefault();
 
         const newBlog = {
-            id: Math.round(Math.random() * 10),
-            name: blog
+            title: 'New Blog Post', // event.target.title.value
+            text: 'This is the new blog post description' // event.target.text.value
         }
 
-        setBlog('');
-        props.onBlogAdded(newBlog);
-    }
+        client.post('', {
+                title: newBlog.title,
+                text: newBlog.text,
+            })
+            .then((response) => {
+                setBlogs((blogs) => [response.data, ...blogs]);
+            });
 
-    const textChangeHandler = event => {
-        setBlog(event.target.value);
+        props.onBlogAdded(newBlog);
     }
 
     const handleGetAllBlogs = () => {
