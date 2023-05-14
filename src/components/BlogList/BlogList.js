@@ -6,8 +6,10 @@ const BlogList = props => {
 
     const [open, setOpen] = useState(false);
     const [blogText, setBlogText] = useState('');
+    const [blogTitle, setBlogTitle] = useState('');
 
-    const modalViewHandler = (text) => {
+    const modalViewHandler = (title, text) => {
+        setBlogTitle(title);
         setBlogText(text);
         setOpen(!open);
       }
@@ -32,7 +34,7 @@ const BlogList = props => {
                                     <TableCell component="th" scope="row">{blog.id}</TableCell>
                                     <TableCell align="left">{blog.title}</TableCell>
                                     <TableCell align="left">
-                                        <Button variant="text" onClick={() => modalViewHandler(blog.text)}>view</Button>
+                                        <Button variant="text" onClick={() => modalViewHandler(blog.title, blog.text)}>view</Button>
                                     </TableCell>
                                     <TableCell align="left">{blog.timestamp}</TableCell>
                                 </TableRow>
@@ -41,7 +43,7 @@ const BlogList = props => {
                     </TableBody>
                 </Table>
              </TableContainer>
-             <BlogTextModal open={open} blogText={blogText} onModalViewHandler={modalViewHandler} />
+             <BlogTextModal open={open} blogTitle={blogTitle} blogText={blogText} onModalViewHandler={modalViewHandler} />
         </div>
     );
 }
